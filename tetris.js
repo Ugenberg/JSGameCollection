@@ -14,13 +14,13 @@ var I = [['..X..',
       'XXXX.',
       '.....',
       '.....',
-      '.....']]
+      '.....']];
 
 var O = [['.....',
       '.....',
       '.XX..',
       '.XX..',
-      '.....']]
+      '.....']];
 
 var S = [['.....',
       '.....',
@@ -31,7 +31,7 @@ var S = [['.....',
       '..X..',
       '..XX.',
       '...X.',
-      '.....']]
+      '.....']];
 
 var Z = [['.....',
       '.....',
@@ -42,7 +42,7 @@ var Z = [['.....',
       '..X..',
       '.XX..',
       '.X...',
-      '.....']]
+      '.....']];
 
 var T = [['.....',
       '..X..',
@@ -63,7 +63,7 @@ var T = [['.....',
       '..X..',
       '.XX..',
       '..X..',
-      '.....']]
+      '.....']];
 
 var J = [['.....',
       '..X..',
@@ -84,7 +84,7 @@ var J = [['.....',
       '.....',
       '.XXX.',
       '...X.',
-      '.....']]
+      '.....']];
 
 var L = [['.....',
       '..X..',
@@ -105,23 +105,14 @@ var L = [['.....',
       '...X.',
       '.XXX.',
       '.....',
-      '.....']]
+      '.....']];
 
 
-var shapes = [I, O, S, Z, T, J, L]
-var colors = ["red", "green", "blue", "gold", "orange", "gray", "brown"]
+var shapes = [I, O, S, Z, T, J, L];
+var colors = ["red", "green", "blue", "gold", "orange", "gray", "brown"];
 
-class Block {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
-        this.shape = shapes[Math.floor(Math.random() * shapes.length)];
-        this.color = colors[shapes.findIndex(x => x == this.shape)]
-        this.rotation = 0;
-    }
-}
 
-const block = new Block(2, 2);
+
 function draw_square(x, y, color){
     
     ctx.fillStyle = color;
@@ -154,3 +145,57 @@ function draw_board()
 
 create_board();
 draw_board();
+
+class Block {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.shape = shapes[Math.floor(Math.random() * shapes.length)];
+        this.color = colors[shapes.findIndex(x => x == this.shape)]
+        this.rotation = 0;
+    }
+    draw_shape() {
+        for(var r = 0; r < this.shape[this.rotation].length; r++){
+            for(var c = 0; c < this.shape[this.rotation].length; c++){
+                if(this.shape[this.rotation][r][c] == 'X'){
+                    draw_square(this.x + r, this.y + c, this.color);
+                }
+            }
+        }
+    }
+}
+
+var block = new Block(4, 0);
+block.draw_shape();
+
+document.addEventListener('keydown', event => {
+    if (event.keyCode === 37) {
+        block.x--;
+    } else if (event.keyCode === 39) {
+        block.x++;
+    } 
+});
+
+function update(){
+    draw_board();
+    block.draw_shape();
+    block.y++;
+}
+
+
+let dropStart = Date.now();
+let gameOver = false;
+function drop(){
+    let now = Date.now();
+    let delta = now - dropStart;
+    if(delta > 1000){
+        update();
+        dropStart = Date.now();
+    }
+    if( !gameOver){
+        window.requestAnimationFrame(drop);
+    }
+}
+
+drop();
+
