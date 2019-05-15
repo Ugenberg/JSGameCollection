@@ -122,64 +122,117 @@ function draw_square(x, y, color){
     ctx.strokeRect(x*block_size, y*block_size, block_size, block_size);
 }
 
-var board = [];
 
-function create_board()
-{
-    for(x = 0; x < ROW; x++){
-        board[x] = [];
-        for(y = 0; y < COL; y++){
-            board[x][y] = "white";
+class Board {
+    constructor() {
+        this.gameboard = [];
+        this.create_board();
+    }
+    create_board() {
+        for(var x = 0; x < ROW; x++){
+            this.gameboard[x] = [];
+            for(var y = 0; y < COL; y++){
+                this.gameboard[x][y] = "white";
+            }
         }
     }
-}
-
-function draw_board()
-{
-    for(x = 0; x < ROW; x++){
-        for(y = 0; y < COL; y++){
-            draw_square(y, x, board[x][y]);
-        }
+    draw_board() {
+        for(var x = 0; x < ROW; x++){
+            for(var y = 0; y < COL; y++){
+                draw_square(y, x, this.gameboard[x][y]);
+            }
+        }    
     }
 }
-
-create_board();
-draw_board();
 
 class Block {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
+    constructor(board) {
+        this.x = 3;
+        this.y = -2;
         this.shape = shapes[Math.floor(Math.random() * shapes.length)];
         this.color = colors[shapes.findIndex(x => x == this.shape)]
         this.rotation = 0;
+        this.board = board;
     }
     draw_shape() {
         for(var r = 0; r < this.shape[this.rotation].length; r++){
             for(var c = 0; c < this.shape[this.rotation].length; c++){
                 if(this.shape[this.rotation][r][c] == 'X'){
-                    draw_square(this.x + r, this.y + c, this.color);
+                    draw_square(this.x + c, this.y + r, this.color);
+                }
+            }
+        }
+    }
+    move_horizontal(direction) {
+        this.x += direction;
+        if(this.check_collision()) {
+            this.x -= direction;
+        }
+    }
+    move_vertical() {
+        this.y++;
+        if(this.check_collision()) {
+            this.y--;
+            this.lock_piece();
+        }
+    }
+    rotate(){
+        this.rotation += 1;
+        if(this.rotation == this.shape.length){
+            this.rotation = 0;
+        }
+    }
+    check_collision() {
+        for(var r = 0; r < this.shape[this.rotation].length; r++){
+            for(var c = 0; c < this.shape[this.rotation].length; c++){
+                if(this.shape[this.rotation][r][c] == 'X'){
+                    if(this.x + c < 0 || this.x + c >= COL){
+                        return true;
+                    }
+                    if(this.y + r >= ROW) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    
+    lock_piece() {
+        for(var r = 0; r < this.shape[this.rotation].length; r++){
+            for(var c = 0; c < this.shape[this.rotation].length; c++){
+                if(this.shape[this.rotation][r][c] == 'X'){
+                    this.board[this.y+r][this.x+c] = this.color;
                 }
             }
         }
     }
 }
 
-var block = new Block(4, 0);
+var board = new Board();
+var block = new Block(board);
+        
+board.draw_board();
 block.draw_shape();
 
 document.addEventListener('keydown', event => {
     if (event.keyCode === 37) {
-        block.x--;
+        block.move_horizontal(-1);
+        dropStart = Date.now();
+        
+    } else if (event.keyCode === 38) {
+        block.rotate();    
     } else if (event.keyCode === 39) {
-        block.x++;
+        block.move_horizontal(1);
+        dropStart = Date.now();
+        
     } 
 });
 
 function update(){
-    draw_board();
-    block.draw_shape();
-    block.y++;
+    board.draw_board();
+    block.draw_shape(); 
+    block.move_vertical();
 }
 
 
@@ -198,4 +251,3 @@ function drop(){
 }
 
 drop();
-
