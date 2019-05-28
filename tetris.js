@@ -148,7 +148,7 @@ class Board {
 class Block {
     constructor(board) {
         this.x = 3;
-        this.y = -2;
+        this.y = 0;
         this.shape = shapes[Math.floor(Math.random() * shapes.length)];
         this.color = colors[shapes.findIndex(x => x == this.shape)]
         this.rotation = 0;
@@ -163,6 +163,23 @@ class Block {
             }
         }
     }
+    
+    check_full() {
+        for(var i = 0; i < 10; i++){
+            if(this.board.gameboard[0][i] != "white")
+                return true;
+        }
+        return false;
+    }
+    
+    piece_reset() {
+        this.x = 3;
+        this.y = 0;
+        this.shape = shapes[Math.floor(Math.random() * shapes.length)];
+        this.color = colors[shapes.findIndex(x => x == this.shape)]
+        this.rotation = 0;
+    }
+    
     move_horizontal(direction) {
         this.x += direction;
         if(this.check_collision()) {
@@ -174,12 +191,13 @@ class Block {
         if(this.check_collision()) {
             this.y--;
             this.lock_piece();
+            this.piece_reset();
         }
     }
     rotate(){
-        this.rotation += 1;
-        if(this.rotation == this.shape.length){
-            this.rotation = 0;
+        this.rotation = this.rotation + 1 == this.shape.length ? 0 : this.rotation + 1;
+        if(this.check_collision()) {
+            this.rotation -= 1;
         }
     }
     check_collision() {
@@ -189,7 +207,7 @@ class Block {
                     if(this.x + c < 0 || this.x + c >= COL){
                         return true;
                     }
-                    if(this.y + r >= ROW) {
+                    if(this.y + r >= ROW || this.board.gameboard[this.y+r][this.x+c] != "white") {
                         return true;
                     }
                 }
@@ -198,11 +216,26 @@ class Block {
         return false;
     }
     
+    instant_drop() {        
+        while(true){
+            this.y++;
+            if(this.check_collision()) {
+                this.y--;
+                this.lock_piece();
+                this.piece_reset();
+                break;
+            }
+        }
+        update();
+    }
+    
     lock_piece() {
         for(var r = 0; r < this.shape[this.rotation].length; r++){
             for(var c = 0; c < this.shape[this.rotation].length; c++){
                 if(this.shape[this.rotation][r][c] == 'X'){
-                    this.board[this.y+r][this.x+c] = this.color;
+                    console.log(this.x+c);
+                    console.log(this.y+r);
+                    this.board.gameboard[this.y+r][this.x+c] = this.color;
                 }
             }
         }
@@ -211,28 +244,30 @@ class Block {
 
 var board = new Board();
 var block = new Block(board);
-        
-board.draw_board();
-block.draw_shape();
 
 document.addEventListener('keydown', event => {
     if (event.keyCode === 37) {
         block.move_horizontal(-1);
-        dropStart = Date.now();
-        
+        update();
     } else if (event.keyCode === 38) {
-        block.rotate();    
+        block.rotate();
+        update();
     } else if (event.keyCode === 39) {
         block.move_horizontal(1);
-        dropStart = Date.now();
-        
+        update();
+    } else if (event.keyCode === 40) {
+        block.move_vertical();
+        update();
+    } else if (event.keyCode === 32) {
+        block.instant_drop();
+        update;
+            
     } 
 });
 
 function update(){
     board.draw_board();
-    block.draw_shape(); 
-    block.move_vertical();
+    block.draw_shape(); ;
 }
 
 
@@ -241,9 +276,14 @@ let gameOver = false;
 function drop(){
     let now = Date.now();
     let delta = now - dropStart;
-    if(delta > 1000){
-        update();
+    if(delta > 600){
+        block.move_vertical()
+        
+        if(block.check_full()){
+            gameOver=true
+        }
         dropStart = Date.now();
+        update();
     }
     if( !gameOver){
         window.requestAnimationFrame(drop);
