@@ -1,0 +1,96 @@
+/* dimensions */
+
+html, body {
+  margin: 0 auto;
+  padding: 0;
+  font-family: 'Gentium Book Basic', serif;
+  text-align: center;
+}
+
+#centerBoard {
+  position: relative;
+  margin: 3px auto;
+}
+
+#topbar {
+  margin: 10px;
+}
+
+.button {
+  display: inline-block;
+  line-height: 40px;
+  height: 40px;
+  padding: 0 15px;
+  margin: 3px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#board {
+  font-size: 0px;
+  display: flex;
+  left: 0px;
+  right: 0px;
+  border-radius: 10px;
+}
+
+#leftGrid {
+  margin: 3px;
+  padding: 2px;
+  border-width: 1px;
+  left: 0px;
+  right: 0px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+#midGrid {
+  padding: 2px;
+  border-width: 1px;
+  border-radius: 10px;
+  margin: 3px 0px;
+  text-align: left;
+}
+
+#rightGrid {
+  width: 60px;
+  display: inline;
+  padding: 2px;
+  border-width: 1px;
+  margin: 3px;
+  left: 0px;
+  right: 0px;
+  border-radius: 10px;
+}
+
+.oldGuess {
+  display: flex;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+}
+
+.color {
+  display: inline-block;
+  height: 30px;
+  width: 30px;
+  margin: 5px;
+  border-radius: 15px;
+  box-shadow: 2px 2px 2px black;
+}
+
+.guessFieldContainer {
+  display: inline-block;
+  padding: 4px 2px 0px;
+  height: 36px;
+  text-align: left;
+}
+
+.guessField {
+  display: inline-flex;
+  height: 14px;
+  width: 14px;
+  margin: 1px 1px;
+  padding: 0;
+  border-radius: 5px;
+}
