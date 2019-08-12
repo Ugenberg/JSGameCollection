@@ -178,7 +178,7 @@ class Board {
 class Block {
     constructor(board) {
         this.x = 3;
-        this.y = 0;
+        this.y = -3;
         this.shape = shapes[Math.floor(Math.random() * shapes.length)];
         this.color = colors[shapes.findIndex(x => x == this.shape)]
         this.rotation = 0;
@@ -205,7 +205,7 @@ class Block {
     piece_reset() {
         this.board.clear_lines();
         this.x = 3;
-        this.y = 0;
+        this.y = -3;
         this.shape = shapes[Math.floor(Math.random() * shapes.length)];
         this.color = colors[shapes.findIndex(x => x == this.shape)]
         this.rotation = 0;
@@ -238,7 +238,7 @@ class Block {
                     if(this.x + c < 0 || this.x + c >= COL){
                         return true;
                     }
-                    if(this.y + r >= ROW || this.board.gameboard[this.y+r][this.x+c] != "white") {
+                    if(this.y + r >= ROW || (this.y+r >= 0 && this.board.gameboard[this.y+r][this.x+c] != "white")) {
                         return true;
                     }
                 }
@@ -264,6 +264,9 @@ class Block {
         for(var r = 0; r < this.shape[this.rotation].length; r++){
             for(var c = 0; c < this.shape[this.rotation].length; c++){
                 if(this.shape[this.rotation][r][c] == 'X'){
+                    if(this.y + r < 0){
+                        continue;
+                    }
                     this.board.gameboard[this.y+r][this.x+c] = this.color;
                 }
             }
@@ -297,7 +300,9 @@ document.addEventListener('keydown', event => {
 
 function update(){
     board.draw_board();
-    block.draw_shape(); ;
+    block.draw_shape();
+        
+
 }
 
 
@@ -308,13 +313,15 @@ function drop(){
     let delta = now - dropStart;
     if(delta > 600){
         block.move_vertical()
-        
-        if(block.check_full()){
-            gameOver=true
-        }
         dropStart = Date.now();
         update();
     }
+    if(block.check_full()){
+        board.create_board();
+        block.piece_reset();
+        update();
+    }
+    
     if( !gameOver){
         window.requestAnimationFrame(drop);
     }
