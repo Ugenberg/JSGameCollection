@@ -1,9 +1,19 @@
 <html>
 <head>
     <title>Tetris</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-    <canvas id="tetris" width="240" height="400" />
+    <div id="gameBoard">
+        <div id="leftGrid"></div>
+        <div id="midGrid">
+            <div id="border">
+                <canvas id="tetris" width="200" height="400" />
+            </div>
+        </div>
+        <div id="rightGrid"></div>
+    </div>
     <script src="tetris.js"></script>
+    <script src="view.js"></script>
 </body>
 </html>

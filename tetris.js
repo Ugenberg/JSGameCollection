@@ -1,6 +1,8 @@
 const cvs = document.getElementById("tetris");
 const ctx = cvs.getContext("2d");
 
+
+
 const ROW = 20;
 const COL = 10;
 const block_size = 20;
