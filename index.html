@@ -1,9 +1,27 @@
 <html>
 <head>
     <title>Tetris</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-    <canvas id="tetris" width="240" height="400" />
+    <div id="gameBoard">
+        <div id="leftGrid"></div>
+        <div id="midGrid">
+            <div id="border">
+                <canvas id="tetris" width="200" height="400" />
+            </div>
+        </div>
+        <div id="rightGrid">
+            <h1>NEXT PIECE</h1>  
+            <canvas id="next" width="100" height="100"></canvas>           
+            
+            <button class="button">NEW GAME</button>
+            <button class="button">HELP</button>
+            <button class="button">PAUSE</button>
+            <button class="button">QUIT GAME</button>
+        </div>
+    </div>
     <script src="tetris.js"></script>
+    <script src="view.js"></script>
 </body>
 </html>

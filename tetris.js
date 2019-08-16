@@ -1,5 +1,9 @@
-const cvs = document.getElementById("tetris");
-const ctx = cvs.getContext("2d");
+const canvas_tetris = document.getElementById("tetris");
+const canvas_next = document.getElementById("next");
+const ctx_tetris = canvas_tetris.getContext("2d");
+const ctx_next = canvas_next.getContext("2d");
+
+
 
 const ROW = 20;
 const COL = 10;
@@ -113,7 +117,7 @@ var colors = ["red", "green", "blue", "gold", "orange", "gray", "brown"];
 
 
 
-function draw_square(x, y, color){
+function draw_square(x, y, color, ctx){
     
     ctx.fillStyle = color;
     ctx.fillRect(x*block_size, y*block_size, block_size, block_size);
@@ -139,26 +143,70 @@ class Board {
     draw_board() {
         for(var x = 0; x < ROW; x++){
             for(var y = 0; y < COL; y++){
-                draw_square(y, x, this.gameboard[x][y]);
+                draw_square(y, x, this.gameboard[x][y], ctx_tetris);
             }
         }    
+    }
+    clear_lines() {
+        var flag = 1;
+        var counter = 0;
+        var start = 0;
+        for(var x = ROW-1; x > 0; x--){
+            for(var y = 0; y < COL; y++){
+                if(this.gameboard[x][y] == "white"){
+                    flag = 0;
+                }
+            }
+            if(flag){
+                start = start == 0 ? x : start;
+                counter++;
+            }
+            else{
+                if(counter){
+                    break;
+                }
+            }
+            flag = 1;
+        }
+            
+        
+        for(var r = start; r > 0; r--){
+            this.gameboard[r] = r-counter > 0 ? this.gameboard[r-counter] : this.gameboard[0];    
+        }
+                
+            
+        
     }
 }
 
 class Block {
     constructor(board) {
         this.x = 3;
-        this.y = 0;
+        this.y = -3;
         this.shape = shapes[Math.floor(Math.random() * shapes.length)];
         this.color = colors[shapes.findIndex(x => x == this.shape)]
         this.rotation = 0;
         this.board = board;
+        this.next = shapes[Math.floor(Math.random() * shapes.length)];
+        this.draw_next();
     }
     draw_shape() {
         for(var r = 0; r < this.shape[this.rotation].length; r++){
             for(var c = 0; c < this.shape[this.rotation].length; c++){
                 if(this.shape[this.rotation][r][c] == 'X'){
-                    draw_square(this.x + c, this.y + r, this.color);
+                    draw_square(this.x + c, this.y + r, this.color, ctx_tetris);
+                }
+            }
+        }
+    }
+    
+    draw_next() {
+        ctx_next.fillStyle = "#586e75";
+        ctx_next.fillRect(0, 0, 100, 100);
+        for(var r = 0; r < this.next[0].length; r++){
+            for(var c = 0; c < this.next[0].length; c++){
+                if(this.next[0][r][c] == 'X'){
+                    draw_square(c, r, colors[shapes.findIndex(x => x == this.next)], ctx_next);
                 }
             }
         }
@@ -173,11 +221,14 @@ class Block {
     }
     
     piece_reset() {
+        this.board.clear_lines();
         this.x = 3;
-        this.y = 0;
-        this.shape = shapes[Math.floor(Math.random() * shapes.length)];
+        this.y = -3;
+        this.shape = this.next;
         this.color = colors[shapes.findIndex(x => x == this.shape)]
+        this.next = shapes[Math.floor(Math.random() * shapes.length)];
         this.rotation = 0;
+        this.draw_next();
     }
     
     move_horizontal(direction) {
@@ -197,7 +248,7 @@ class Block {
     rotate(){
         this.rotation = this.rotation + 1 == this.shape.length ? 0 : this.rotation + 1;
         if(this.check_collision()) {
-            this.rotation -= 1;
+            this.rotation = this.rotation == 0 ? this.shape.length - 1 : this.rotation - 1;
         }
     }
     check_collision() {
@@ -207,7 +258,7 @@ class Block {
                     if(this.x + c < 0 || this.x + c >= COL){
                         return true;
                     }
-                    if(this.y + r >= ROW || this.board.gameboard[this.y+r][this.x+c] != "white") {
+                    if(this.y + r >= ROW || (this.y+r >= 0 && this.board.gameboard[this.y+r][this.x+c] != "white")) {
                         return true;
                     }
                 }
@@ -233,12 +284,14 @@ class Block {
         for(var r = 0; r < this.shape[this.rotation].length; r++){
             for(var c = 0; c < this.shape[this.rotation].length; c++){
                 if(this.shape[this.rotation][r][c] == 'X'){
-                    console.log(this.x+c);
-                    console.log(this.y+r);
+                    if(this.y + r < 0){
+                        continue;
+                    }
                     this.board.gameboard[this.y+r][this.x+c] = this.color;
                 }
             }
         }
+        this.board.clear_lines();
     }
 }
 
@@ -267,7 +320,9 @@ document.addEventListener('keydown', event => {
 
 function update(){
     board.draw_board();
-    block.draw_shape(); ;
+    block.draw_shape();
+        
+
 }
 
 
@@ -278,13 +333,15 @@ function drop(){
     let delta = now - dropStart;
     if(delta > 600){
         block.move_vertical()
-        
-        if(block.check_full()){
-            gameOver=true
-        }
         dropStart = Date.now();
         update();
     }
+    if(block.check_full()){
+        board.create_board();
+        block.piece_reset();
+        update();
+    }
+    
     if( !gameOver){
         window.requestAnimationFrame(drop);
     }
