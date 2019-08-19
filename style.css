@@ -126,6 +126,7 @@ h1 {
     text-align: center;
     justify-content: center;
     align-items: center;
+
 }
 
 .modal {
@@ -165,4 +166,5 @@ h1 {
   color: black;
   text-decoration: none;
   cursor: pointer;
+
 }
