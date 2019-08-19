@@ -1,5 +1,7 @@
-const cvs = document.getElementById("tetris");
-const ctx = cvs.getContext("2d");
+const canvas_tetris = document.getElementById("tetris");
+const canvas_next = document.getElementById("next");
+const ctx_tetris = canvas_tetris.getContext("2d");
+const ctx_next = canvas_next.getContext("2d");
 
 
 
@@ -115,7 +117,7 @@ var colors = ["red", "green", "blue", "gold", "orange", "gray", "brown"];
 
 
 
-function draw_square(x, y, color){
+function draw_square(x, y, color, ctx){
     
     ctx.fillStyle = color;
     ctx.fillRect(x*block_size, y*block_size, block_size, block_size);
@@ -141,7 +143,7 @@ class Board {
     draw_board() {
         for(var x = 0; x < ROW; x++){
             for(var y = 0; y < COL; y++){
-                draw_square(y, x, this.gameboard[x][y]);
+                draw_square(y, x, this.gameboard[x][y], ctx_tetris);
             }
         }    
     }
@@ -185,12 +187,26 @@ class Block {
         this.color = colors[shapes.findIndex(x => x == this.shape)]
         this.rotation = 0;
         this.board = board;
+        this.next = shapes[Math.floor(Math.random() * shapes.length)];
+        this.draw_next();
     }
     draw_shape() {
         for(var r = 0; r < this.shape[this.rotation].length; r++){
             for(var c = 0; c < this.shape[this.rotation].length; c++){
                 if(this.shape[this.rotation][r][c] == 'X'){
-                    draw_square(this.x + c, this.y + r, this.color);
+                    draw_square(this.x + c, this.y + r, this.color, ctx_tetris);
+                }
+            }
+        }
+    }
+    
+    draw_next() {
+        ctx_next.fillStyle = "#586e75";
+        ctx_next.fillRect(0, 0, 100, 100);
+        for(var r = 0; r < this.next[0].length; r++){
+            for(var c = 0; c < this.next[0].length; c++){
+                if(this.next[0][r][c] == 'X'){
+                    draw_square(c, r, colors[shapes.findIndex(x => x == this.next)], ctx_next);
                 }
             }
         }
@@ -208,9 +224,11 @@ class Block {
         this.board.clear_lines();
         this.x = 3;
         this.y = -3;
-        this.shape = shapes[Math.floor(Math.random() * shapes.length)];
+        this.shape = this.next;
         this.color = colors[shapes.findIndex(x => x == this.shape)]
+        this.next = shapes[Math.floor(Math.random() * shapes.length)];
         this.rotation = 0;
+        this.draw_next();
     }
     
     move_horizontal(direction) {
@@ -310,23 +328,63 @@ function update(){
 
 let dropStart = Date.now();
 let gameOver = false;
+let gameRun = false;
+let gamePause = false;
+
 function drop(){
     let now = Date.now();
     let delta = now - dropStart;
-    if(delta > 600){
+    if(delta > 600 && gameRun == true){
         block.move_vertical()
         dropStart = Date.now();
         update();
     }
     if(block.check_full()){
-        board.create_board();
-        block.piece_reset();
-        update();
+        newGame();
     }
     
-    if( !gameOver){
+    if(gameRun){
         window.requestAnimationFrame(drop);
     }
 }
 
-drop();
+function newGame() {
+    gameRun = true;
+    board.create_board();
+    block.piece_reset();
+    update();
+    drop();
+}
+
+function pauseGame() {
+    if(gameRun){
+        gameRun = false;
+    }
+    else {
+        gameRun = true;
+        drop();
+    }
+}
+
+function helpGame() {
+    gameRun = false;
+    var modal = document.getElementById("myModal");
+    var span = document.getElementsByClassName("close")[0];
+    modal.style.display = "block";
+    span.onclick = function() {
+        modal.style.display = "none";
+        gameRun = true;
+        drop();
+    }
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+            gameRun = true;
+            drop();
+        }
+    }
+}
+
+function quitGame() {
+    window.close();
+}
