@@ -328,23 +328,63 @@ function update(){
 
 let dropStart = Date.now();
 let gameOver = false;
+let gameRun = false;
+let gamePause = false;
+
 function drop(){
     let now = Date.now();
     let delta = now - dropStart;
-    if(delta > 600){
+    if(delta > 600 && gameRun == true){
         block.move_vertical()
         dropStart = Date.now();
         update();
     }
     if(block.check_full()){
-        board.create_board();
-        block.piece_reset();
-        update();
+        newGame();
     }
     
-    if( !gameOver){
+    if(gameRun){
         window.requestAnimationFrame(drop);
     }
 }
 
-drop();
+function newGame() {
+    gameRun = true;
+    board.create_board();
+    block.piece_reset();
+    update();
+    drop();
+}
+
+function pauseGame() {
+    if(gameRun){
+        gameRun = false;
+    }
+    else {
+        gameRun = true;
+        drop();
+    }
+}
+
+function helpGame() {
+    gameRun = false;
+    var modal = document.getElementById("myModal");
+    var span = document.getElementsByClassName("close")[0];
+    modal.style.display = "block";
+    span.onclick = function() {
+        modal.style.display = "none";
+        gameRun = true;
+        drop();
+    }
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+            gameRun = true;
+            drop();
+        }
+    }
+}
+
+function quitGame() {
+    window.close();
+}
