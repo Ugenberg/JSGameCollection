@@ -2,6 +2,8 @@ const canvas_tetris = document.getElementById("tetris");
 const canvas_next = document.getElementById("next");
 const ctx_tetris = canvas_tetris.getContext("2d");
 const ctx_next = canvas_next.getContext("2d");
+var scr = document.getElementById("score");
+
 
 
 
@@ -131,6 +133,7 @@ class Board {
     constructor() {
         this.gameboard = [];
         this.create_board();
+        this.score = 0;
     }
     create_board() {
         for(var x = 0; x < ROW; x++){
@@ -145,7 +148,7 @@ class Board {
             for(var y = 0; y < COL; y++){
                 draw_square(y, x, this.gameboard[x][y], ctx_tetris);
             }
-        }    
+        }
     }
     clear_lines() {
         var flag = 1;
@@ -173,10 +176,11 @@ class Board {
         for(var r = start; r > 0; r--){
             this.gameboard[r] = r-counter > 0 ? this.gameboard[r-counter] : this.gameboard[0];    
         }
-                
-            
         
+        this.score += counter * 10;
+        scr.innerHTML = this.score;
     }
+    
 }
 
 class Block {
