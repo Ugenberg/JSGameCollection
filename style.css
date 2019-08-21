@@ -1,4 +1,6 @@
 html, body {
+    height:100%;
+    width:100%;
     margin: 0 auto;
     padding: 0;
     font-family: 'Gentium Book Basic', serif;
@@ -40,6 +42,8 @@ h1 {
 
 
 #gameBoard {
+    margin-top: auto;
+    margin-bottom: auto;
     width: 520px;
     height: 450px;
     border-radius: 10px;
@@ -49,6 +53,7 @@ h1 {
     text-align: center;
     justify-content: center;
     align-items: center;
+    
 }
 
 #border {
@@ -56,14 +61,17 @@ h1 {
     height: 406px;
     border-radius: 4px;
     background-color: #000000;
+    display: flex;
     text-align: center;
+    justify-content: center;
+    align-items: center;
 }
 
 #tetris {
     padding: 0;
     margin: auto;
     display: block;
-    position: absolute;
+    
     top: 0;
     bottom: 0;
     left: 0;
@@ -126,7 +134,6 @@ h1 {
     text-align: center;
     justify-content: center;
     align-items: center;
-
 }
 
 .modal {
@@ -166,5 +173,4 @@ h1 {
   color: black;
   text-decoration: none;
   cursor: pointer;
-
 }
