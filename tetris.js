@@ -3,6 +3,8 @@ const canvas_next = document.getElementById("next");
 const ctx_tetris = canvas_tetris.getContext("2d");
 const ctx_next = canvas_next.getContext("2d");
 var scr = document.getElementById("score");
+var lvl = document.getElementById("level");
+var lns = document.getElementById("lines");
 
 
 
@@ -133,9 +135,12 @@ class Board {
     constructor() {
         this.gameboard = [];
         this.create_board();
-        this.score = 0;
+        
     }
     create_board() {
+        this.score = 0;
+        this.lines = 0;
+        this.level = 1;
         for(var x = 0; x < ROW; x++){
             this.gameboard[x] = [];
             for(var y = 0; y < COL; y++){
@@ -178,7 +183,9 @@ class Board {
         }
         
         this.score += counter * 10;
+        this.lines += counter;
         scr.innerHTML = this.score;
+        lns.innerHTML = this.lines;
     }
     
 }
@@ -331,7 +338,6 @@ function update(){
 
 
 let dropStart = Date.now();
-let gameOver = false;
 let gameRun = false;
 let gamePause = false;
 
@@ -344,7 +350,7 @@ function drop(){
         update();
     }
     if(block.check_full()){
-        newGame();
+        gameOver();
     }
     
     if(gameRun){
@@ -372,7 +378,7 @@ function pauseGame() {
 
 function helpGame() {
     gameRun = false;
-    var modal = document.getElementById("myModal");
+    var modal = document.getElementById("help");
     var span = document.getElementsByClassName("close")[0];
     modal.style.display = "block";
     span.onclick = function() {
@@ -392,3 +398,20 @@ function helpGame() {
 function quitGame() {
     window.close();
 }
+
+function gameOver() {
+    gameRun = false;
+    var modal = document.getElementById("gameOver");
+    var span = document.getElementsByClassName("close")[1];
+    modal.style.display = "block";
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }    
+}
+
+board.draw_board();
