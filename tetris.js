@@ -396,7 +396,7 @@ function helpGame() {
 }
 
 function quitGame() {
-    window.close();
+    window.location.href='menu.html';
 }
 
 function gameOver() {
