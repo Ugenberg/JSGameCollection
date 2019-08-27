@@ -39,6 +39,23 @@ h1 {
     background-color: #586e75;
 }
 
+.menu_button {
+    position: relative;
+    width: 200;
+    height: 200;
+    background-color: #002b36; /* Green */
+    border: 3px ridge black;
+    border-radius: 4px;
+    color: black;
+    text-align: center;
+    font-size: 20px;
+    cursor: pointer;
+    display: inline-block;
+    font-family: "Gentium Book Basic";
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
 #score, #level, #lines {
     margin: auto;
     position: relative;
@@ -60,10 +77,26 @@ h1 {
     border-radius: 10px;
     background-color: #002b36;
     box-shadow: 2px 2px 3px black;
-    display:flex;
+    display: flex;
     text-align: center;
     justify-content: center;
     align-items: center;
+}
+
+#menuBoard {
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 520px;
+    height: 450px;
+    border-radius: 10px;
+    background-color: #002b36;
+    box-shadow: 2px 2px 3px black;
+    display: inline-block;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    line-height: 225px;
+    padding: 10;
     
 }
 
