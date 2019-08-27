@@ -11,13 +11,20 @@
   <!-- style -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <link href="https://fonts.googleapis.com/css?family=Gentium+Book+Basic" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="js_mind_layout.css">
-  <link rel="stylesheet" type="text/css" href="js_mind_style.css">
+  <link rel="stylesheet" type="text/css" href="mind_layout.css">
+  <link rel="stylesheet" type="text/css" href="mind_style.css">
 </head>
 
 <body>
   <div id="centerBoard">
-    <div id="topbar"> </div>
+	<div id="topbar"> 
+		<div id="myPopup" class="popup">
+			<div class="popup-content">
+				<span class="close">&times;</span>
+				<p>Guess the combination of colours!<br> White dot - right colour<br> Black dot - right place<br></p>
+			</div>
+		</div> 
+	</div>
     <div id="board">
       <div id="leftGrid"></div>
       <div id="midGrid"> </div>
@@ -25,8 +32,8 @@
     </div>
 	<div id="overlay"></div>
   </div>
-  <script src="js_mind_view.js"></script>
-  <script src="js_mind.js"></script>
+  <script src="mind_view.js"></script>
+  <script src="mind.js"></script>
 </body>
 
 </html>
