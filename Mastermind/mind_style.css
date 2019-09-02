@@ -6,12 +6,17 @@ html, body {
 }
 
 .button {
-  background: #eee8d5;
+  background: #586e75;
   color: #073642;
   box-shadow: 1px 1px 2px black;
 }
 
 #board {
+  background-color: #002b36;
+  box-shadow: 2px 2px 3px black;
+}
+
+#topbar {
   background-color: #002b36;
   box-shadow: 2px 2px 3px black;
 }

@@ -89,6 +89,16 @@ View.prototype.loadTopBar = function() {
     };
   };
   thiss.topbar.appendChild(par);
+  
+  par = document.createElement("span");
+  par.className = "button";
+  par.innerHTML = "Help";
+  par.onclick = function() {
+    if (thiss.play) {
+      thiss.showHelp();
+    };
+  };
+  thiss.topbar.appendChild(par);
 };
 
 View.prototype.loadRightGrid = function() {
@@ -125,6 +135,20 @@ View.prototype.resetGuess = function() {
 View.prototype.cancelLastColor = function() {
   this.guess.pop();
   this.updateGuess();
+};
+
+View.prototype.showHelp = function() {
+  var popup = document.getElementById("myPopup");
+  var span = document.getElementsByClassName("close")[0];
+  popup.style.display = "block";
+  span.onclick = function() {
+    popup.style.display = "none";
+  }
+  window.onclick = function(event) {
+    if (event.target == popup) {
+      popup.style.display = "none";
+    }
+  } 
 };
 
 View.prototype.playColor = function(color) {
