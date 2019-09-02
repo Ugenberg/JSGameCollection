@@ -10,20 +10,23 @@ html, body {
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
 }
 
 #page {
     width: 1000px;
     height: 700px;
-    display:block;
+    display: block;
     justify-content: center;
     align-items: center;
+    text-align: center;
 }
 #topBar {
     width: 1000;
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
 }
 
 .led-red {
@@ -134,7 +137,7 @@ h1 {
 .menu_button:hover {
     background: linear-gradient(135deg, rgba(2,0,36,1) 0%, rgba(52,4,77,1) 10%, rgba(0,212,255,1) 50%, rgba(52,4,77,1) 90%, rgba(0,212,255,1) 100%);
     font-size: 300%;
-    border-color: darkred;
+    border-color: darkslateblue;
 }
 
 
@@ -154,15 +157,24 @@ h1 {
 #gameBoard {
     margin-top: auto;
     margin-bottom: auto;
+    margin-left: auto ;
+    margin-right: auto ;
     width: 520px;
     height: 450px;
-    border-radius: 10px;
-    background-color: #002b36;
+    border-radius: 80px;
+    background: radial-gradient(circle, rgba(2,0,36,1) 0%, rgba(52,4,77,1) 25%, rgba(9,9,121,0.633473457742472) 50%, rgba(52,4,77,1) 75%, rgba(0,212,255,1) 100%);
+    background-position: center;
+	animation: pulse 5s infinite;
+    animation-direction: alternate;
     box-shadow: 2px 2px 3px black;
     display: flex;
     text-align: center;
     justify-content: center;
     align-items: center;
+    padding: 10;
+    border: 10px groove gray; 
+    border-right: 10px ridge gray;
+    border-bottom: 10px ridge gray;
 }
 
 #menuBoard {
