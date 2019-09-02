@@ -5,13 +5,22 @@
     <link href='https://fonts.googleapis.com/css?family=Orbitron' rel='stylesheet' type='text/css'>
 </head>
 <body>
-    <div id="menuBoard">
-        <button class="menu_button" onMouseDown="window.location.href='index.html';">TETRIS</button>
-        <button class="menu_button" onMouseDown="newGame()">MASTERMIND</button>
-        <button class="menu_button" onMouseDown="newGame()">SNAKE</button>
-        <button class="menu_button" onMouseDown="newGame()">GAME</button>
+    <div id=page>
+        <div id=topBar>
+            <div class="led-red"></div>
+            <div id="displayBase">
+                <div id="display"></div>
+            </div>
+            <div class="led-red"></div>
+        </div>
+        <div id="menuBoard">
+            <button class="menu_button" onMouseDown="window.location.href='index.html';">TETRIS</button>
+            <button class="menu_button" onMouseDown="newGame()">MASTERMIND</button>
+            <button class="menu_button" onMouseDown="newGame()">SNAKE</button>
+            <button class="menu_button" onMouseDown="newGame()">GAME</button>
+        </div>
     </div>
     <script src="tetris.js"></script>
-    <script src="view.js"></script>
+    <script src="led.js"></script>
 </body>
 </html>
