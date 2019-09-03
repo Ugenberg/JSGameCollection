@@ -314,23 +314,24 @@ var board = new Board();
 var block = new Block(board);
 
 document.addEventListener('keydown', event => {
-    if (event.keyCode === 37) {
-        block.move_horizontal(-1);
-        update();
-    } else if (event.keyCode === 38) {
-        block.rotate();
-        update();
-    } else if (event.keyCode === 39) {
-        block.move_horizontal(1);
-        update();
-    } else if (event.keyCode === 40) {
-        block.move_vertical();
-        update();
-    } else if (event.keyCode === 32) {
-        block.instant_drop();
-        update;
-            
-    } 
+    if(gameRun) {
+        if (event.keyCode === 37) {
+            block.move_horizontal(-1);
+            update();
+        } else if (event.keyCode === 38) {
+            block.rotate();
+            update();
+        } else if (event.keyCode === 39) {
+            block.move_horizontal(1);
+            update();
+        } else if (event.keyCode === 40) {
+            block.move_vertical();
+            update();
+        } else if (event.keyCode === 32) {
+            block.instant_drop();
+            update;
+        }
+    }
 });
 
 function update(){
@@ -342,6 +343,7 @@ function update(){
 
 
 let dropStart = Date.now();
+let gameStart = false;
 let gameRun = false;
 let gamePause = false;
 
@@ -363,6 +365,7 @@ function drop(){
 }
 
 function newGame() {
+    gameStart = true;
     gameRun = true;
     board.create_board();
     block.piece_reset();
@@ -374,7 +377,7 @@ function pauseGame() {
     if(gameRun){
         gameRun = false;
     }
-    else {
+    else if(gameStart){
         gameRun = true;
         drop();
     }
@@ -387,14 +390,18 @@ function helpGame() {
     modal.style.display = "block";
     span.onclick = function() {
         modal.style.display = "none";
-        gameRun = true;
-        drop();
+        if(gameStart) {
+            gameRun = true;
+            drop();
+        }
     }
     window.onclick = function(event) {
         if (event.target == modal) {
             modal.style.display = "none";
-            gameRun = true;
-            drop();
+            if(gameStart) {
+                gameRun = true;
+                drop();
+            }
         }
     }
 }
