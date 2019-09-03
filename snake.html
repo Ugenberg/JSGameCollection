@@ -1,0 +1,71 @@
+<html>
+<head>
+    <title>Tetris</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link href='https://fonts.googleapis.com/css?family=Orbitron' rel='stylesheet' type='text/css'>
+</head>
+<body>
+    <div id="page">
+        <div id="topBar">
+            <div class="led-red"></div>
+            <div id="displayBase">
+                <div id="display"></div>
+            </div>
+            <div class="led-red"></div>
+        </div>
+        <div id="snakeBoard">
+            <div id="topGrid">
+                <div class="container">
+                    <h1>SCORE</h1>
+                    <div id="score_s">0</div>
+                </div>
+                <div class="container">
+                    <h1>LEVEL</h1>
+                    <div id="level_s">1</div>
+                </div>
+                <div class="container">
+                    <h1>LINES</h1>
+                    <div id="lines_s">0</div>
+                </div>    
+            </div>
+            <div id="centerGrid">
+                <div id="border_s">
+                    <canvas id="snake" width="500" height="300" />
+                </div>
+            </div>
+            <div id="bottomGrid">
+                <button class="button" onMouseDown="newGame()">NEW GAME</button>
+                <button class="button" onMouseDown="helpGame()" >HELP</button>
+                <button class="button" onMouseDown="pauseGame()">PAUSE</button>
+                <button class="button" onMouseDown="quitGame()">QUIT GAME</button>
+            </div>
+        </div>
+
+        <div id="help" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                    <h1>How to play?</h1>
+                    <p>The goal of Tetris is to score as many points as possible,
+                    by clearing horizontal lines of Blocks. The player must rotate,
+                    move, and drop the falling Tetriminos inside the Matrix (playing field).
+                    Lines are cleared when they are filled with Blocks and have no empty spaces.
+                    As lines are cleared, the level increases and Tetriminos fall faster,
+                    making the game progressively more challenging. If the Blocks land above
+                    the top of the playing field, the game is over.</p>
+                    <h1>Controls</h1>
+                    <p>Left&Right&Down Arrow -> move block</p>
+                    <p>Space -> instant drop"</p>
+            </div>
+        </div>
+        <div id="gameOver" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h1>GAME OVER</h1>
+            </div>
+        </div>
+    </div>
+    <script src="tetris.js"></script>
+    <script src="led.js"></script>
+    <script> write(snake)</script>
+</body>
+</html>
