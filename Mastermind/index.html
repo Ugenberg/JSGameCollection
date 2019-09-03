@@ -11,19 +11,26 @@
   <!-- style -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <link href="https://fonts.googleapis.com/css?family=Gentium+Book+Basic" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="mind_layout.css">
   <link rel="stylesheet" type="text/css" href="mind_style.css">
 </head>
 
-<body
-  <div id="gameBoard">
-    <div id="centerBoard">
+<body>
+  <div id="page">
+    <div id="topBar">
+      <div class="led-red"></div>
+      <div id="displayBase">
+        <div id="display"></div>
+      </div>
+      <div class="led-red"></div>
+    </div>
+	<div id="gameBoard">
+      <div id="centerBoard">
 	  <div id="topbar"> 
 		<div id="myPopup" class="popup">
-			<div class="popup-content">
-				<span class="close">&times;</span>
-				<p>Guess the combination of colours!<br> White dot - right colour<br> Black dot - right place<br></p>
-			</div>
+	      <div class="popup-content">
+		    <span class="close">&times;</span>
+			<p>Guess the combination of colours!<br> White dot - right colour<br> Black dot - right place<br></p>
+		  </div>
 		</div> 
 	  </div>
     <div id="board">
@@ -31,11 +38,18 @@
       <div id="midGrid"> </div>
       <div id="rightGrid"> </div>
     </div>
-	<div id="overlay"></div>
+	  <div id="overlay"></div>
+      </div>
     </div>
   </div>
   <script src="mind_view.js"></script>
   <script src="mind.js"></script>
+  <script src="../led.js"></script>
+  <script> write(mastermind)</script>
 </body>
 
 </html>
+
+
+
+ 
