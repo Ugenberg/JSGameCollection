@@ -141,6 +141,7 @@ class Board {
         this.score = 0;
         this.lines = 0;
         this.level = 1;
+        this.limit = 50;
         for(var x = 0; x < ROW; x++){
             this.gameboard[x] = [];
             for(var y = 0; y < COL; y++){
@@ -186,6 +187,12 @@ class Board {
         this.lines += counter;
         scr.innerHTML = this.score;
         lns.innerHTML = this.lines;
+        
+        if(this.score >= this.limit & counter != 0) {
+            this.level++;
+            lvl.innerHTML = this.level;
+            this.limit = 50 * this.level;
+        }
     }
     
 }
@@ -346,11 +353,12 @@ let dropStart = Date.now();
 let gameStart = false;
 let gameRun = false;
 let gamePause = false;
+let gameTemp = 700;
 
 function drop(){
     let now = Date.now();
     let delta = now - dropStart;
-    if(delta > 600 && gameRun == true){
+    if(delta > (gameTemp - board.level * 150) && gameRun == true){
         block.move_vertical()
         dropStart = Date.now();
         update();
