@@ -212,7 +212,11 @@ class Block {
     }
     
     draw_next() {
-        ctx_next.fillStyle = "#586e75";
+        var my_gradient = ctx_next.createLinearGradient(0, 100, 100, 10);
+        my_gradient.addColorStop(0, "#34044d");
+        my_gradient.addColorStop(0.5, "#00d4ff");
+        my_gradient.addColorStop(1, "#34044d");
+        ctx_next.fillStyle = my_gradient;
         ctx_next.fillRect(0, 0, 100, 100);
         for(var r = 0; r < this.next[0].length; r++){
             for(var c = 0; c < this.next[0].length; c++){
