@@ -8,6 +8,7 @@ const STATUS_HEIGHT = 30;
 
 function mouseMove() {
 	mouseX = event.clientX - board.offsetLeft;
+	mouseY = event.clientY - board.offsetTop;
 }
 
 function mouseDown() {
@@ -16,7 +17,7 @@ function mouseDown() {
 		count = 0;
 	} else {
 		fired = true;
-	}
+	} 
 }
 
 window.onload = function () {
@@ -29,7 +30,6 @@ window.onload = function () {
 	let ctx = board.getContext("2d");
 	board.addEventListener("mousemove", mouseMove, true);
 	board.addEventListener("mousedown", mouseDown, true);
-	mouseX = board.width / 2;
 
 	let bar = new Bar();
 	bar.init();
@@ -251,6 +251,19 @@ window.onload = function () {
 						}
 					}
 				}
+			}
+			// quit button
+			ctx.beginPath();
+			ctx.font = "20px Consolas";
+			ctx.fillStyle = MSG_COLOR;
+			ctx.textAlign = "left";
+			ctx.textBaseline = "middle";
+			let btn = "Quit";
+			ctx.fillText(btn, board.width / 1.11, STATUS_HEIGHT / 2);
+			var bbox = {x:board.width / 1.11, y:STATUS_HEIGHT / 5, w:43, h:20};
+			//ctx.fillRect(board.width / 1.11, STATUS_HEIGHT / 5, 43,20);
+			if(mouseX >= bbox.x && mouseY >= bbox.y && mouseX <= bbox.x + bbox.w && mouseY <= bbox.y + bbox.h){
+				window.location.href="../menu.html";
 			}
 			// game over
 			if (ball.life === 0) {

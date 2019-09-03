@@ -35,7 +35,7 @@ View.prototype.createView = function() {
   
   var sheet = document.createElement("style");
   let wk = 16 * Math.ceil(thiss.game.digits / 2);
-  let ws = 20 + wk;
+  let ws = 30 + wk;
   let wg = thiss.game.digits * 40;
   let w_all = ws + wg + 90;
   let hg = thiss.game.maxCount * 40
@@ -96,6 +96,16 @@ View.prototype.loadTopBar = function() {
   par.onclick = function() {
     if (thiss.play) {
       thiss.showHelp();
+    };
+  };
+  thiss.topbar.appendChild(par);
+  
+  par = document.createElement("span");
+  par.className = "button";
+  par.innerHTML = "Quit";
+  par.onclick = function() {
+    if (thiss.play) {
+      thiss.quitGame();
     };
   };
   thiss.topbar.appendChild(par);
@@ -229,4 +239,8 @@ View.prototype.gameOver = function() {
   let par = this.showCombination(this.game.solution);
   par.id = "solution";
   this.overlay.appendChild(par);
+};
+
+View.prototype.quitGame = function() {
+	window.location.href="../menu.html";
 };
