@@ -43,7 +43,6 @@ class Food {
     reset_food() {
         this.x = Math.floor(Math.random() * (25));
         this.y = Math.floor(Math.random() * (15));
-        this.draw_food();
     }
 }
 
@@ -67,17 +66,24 @@ class Snake {
         }
     }
     
+    reset_snake() {
+        this.body = [];
+        this.direction = "";
+        this.create_head();
+    }
+    
     update_position() {
         
         this.board.draw_board();
-        this.draw_snake();
-        food.draw_food();
-        let bol = this.eat_food();
-        
-        if(!bol)
-            this.move_body();
-        this.move_head();
-        
+        if(gameRun) {
+            this.draw_snake();
+            food.draw_food();
+            let bol = this.eat_food();
+
+            if(!bol)
+                this.move_body();
+            this.move_head();
+        }
         
     }
     
@@ -131,20 +137,80 @@ document.addEventListener("keydown",direction);
 
 function direction(event){
     let key = event.keyCode;
-    if( key == 37){
-        snake.direction = "LEFT";
-    }else if(key == 38){
-        snake.direction = "UP";
-    }else if(key == 39){
-        snake.direction = "RIGHT";
-    }else if(key == 40){
-        snake.direction = "DOWN";
+    if(gameRun){    
+        if( key == 37){
+            snake.direction = "LEFT";
+        }else if(key == 38){
+            snake.direction = "UP";
+        }else if(key == 39){
+            snake.direction = "RIGHT";
+        }else if(key == 40){
+            snake.direction = "DOWN";
+        }
     }
 }
 
-setInterval(() => snake.update_position(),100);
+
+gameRun = false;
+gameStart = false;
+var interval = setInterval(() => snake.update_position(),100);
+
+function newGame() {
+    if(!gameStart){
+        gameRun=true;
+        gameStart=true;
+    }
+    
+    if(gameRun) {
+        snake.reset_snake();
+    }
+    else {
+        gameRun = true;
+        snake.reset_snake();
+        interval = setInterval(() => snake.update_position(), 100);
+    }
+    
+}
+
+function pauseGame() {
+    if(gameStart){
+        if(gameRun){
+            clearInterval(interval);
+            gameRun = false;
+        }
+        else{
+            gameRun = true;
+            interval = setInterval(() => snake.update_position(), 100);
+        }
+    }
+}
 
 
+function helpGame() {
+    if(gameStart){
+        clearInterval(interval);
+        gameRun = false;
+    }
+    var modal = document.getElementById("help");
+    var span = document.getElementsByClassName("close")[0];
+    modal.style.display = "block";
+    span.onclick = function() {
+        modal.style.display = "none";
+        if(gameStart) {
+            gameRun = true;
+            interval = setInterval(() => snake.update_position(), 100);
+        }
+    }
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+            if(gameStart) {
+                gameRun = true;
+                interval = setInterval(() => snake.update_position(), 100);
+            }
+        }
+    }
+}
 
 function quitGame() {
     window.location.href='menu.html';
