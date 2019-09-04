@@ -41,8 +41,8 @@ class Food {
     }
     
     reset_food() {
-        this.x = Math.floor(Math.random() * (25 - 0 + 1));
-        this.y = Math.floor(Math.random() * (15 - 0 + 1));
+        this.x = Math.floor(Math.random() * (25));
+        this.y = Math.floor(Math.random() * (15));
         this.draw_food();
     }
 }
@@ -111,7 +111,7 @@ class Snake {
         console.log(this.body[0], food.x, food.y);
         
         if(this.body[0][0] == food.x && this.body[0][1] == food.y) {
-            this.body.push([food.x, food.y]);
+            this.body.splice(1,0,[food.x, food.y]);
             food.reset_food();
             return true;
         }
