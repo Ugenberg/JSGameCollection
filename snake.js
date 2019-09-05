@@ -2,6 +2,14 @@ const cvs = document.getElementById("snake_canv");
 const ctx = cvs.getContext("2d");
 
 let block_size = 20;
+const foodImg = new Image();
+foodImg.src = "img/apple.png";
+const bodyImg = new Image();
+bodyImg.src = "img/body.png";
+const headImg = new Image();
+headImg.src = "img/head.png";
+const backImg = new Image();
+backImg.src = "img/back.png";
 
 function draw_square(x, y, color, ctx){
     
@@ -18,14 +26,7 @@ class Board {
         this.draw_board();
     }
     draw_board() {
-        for(var x = 0; x < 15; x++){
-            for(var y = 0; y < 25; y++){
-                if(y%2==0 && x%2==1)
-                    draw_square(y, x, "darkgreen", ctx);
-                else
-                    draw_square(y, x, "green", ctx);
-            }
-        } 
+        ctx.drawImage(backImg, 0, 0);
     }
 }
 
@@ -37,7 +38,7 @@ class Food {
     }
     
     draw_food() {
-        draw_square(this.x, this.y, "red", ctx);
+        ctx.drawImage(foodImg, this.x * block_size, this.y * block_size);
     }
     
     reset_food() {
@@ -61,8 +62,11 @@ class Snake {
     }
     
     draw_snake() {
-        for( let i = 0; i < this.body.length ; i++){
-            draw_square(this.body[i][0], this.body[i][1], "blue", ctx);
+        
+        ctx.drawImage(headImg, this.body[0][0] * block_size, this.body[0][1] * block_size);    
+        
+        for( let i = 1; i < this.body.length ; i++){
+            ctx.drawImage(bodyImg, this.body[i][0] * block_size, this.body[i][1] * block_size);
         }
     }
     
@@ -115,7 +119,7 @@ class Snake {
     
     eat_food() {
         
-        console.log(this.body[0], food.x, food.y);
+        console.log(food.x, food.y);
         
         if(this.body[0][0] == food.x && this.body[0][1] == food.y) {
             this.body.splice(1,0,[food.x, food.y]);
