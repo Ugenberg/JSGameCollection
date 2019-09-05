@@ -83,6 +83,7 @@ class Snake {
             if(!bol)
                 this.move_body();
             this.move_head();
+            this.check_collision();
         }
         
     }
@@ -123,6 +124,19 @@ class Snake {
         }
         return false;
     }
+    
+    check_collision() {
+        if(this.body[0][0] >= 25 || this.body[0][0] < 0 || this.body[0][1] >= 15 || this.body[0][1] < 0){
+            clearInterval(interval);
+            gameOver();
+        }
+        for(var i = 1; i < this.body.length; i++){
+            if(this.body[0][0] == this.body[i][0] && this.body[0][1] == this.body[i][1]){
+                clearInterval(interval);
+                gameOver();
+            }
+        }
+    }
 }
 
 
@@ -138,13 +152,13 @@ document.addEventListener("keydown",direction);
 function direction(event){
     let key = event.keyCode;
     if(gameRun){    
-        if( key == 37){
+        if(key == 37 && snake.direction != "RIGHT"){
             snake.direction = "LEFT";
-        }else if(key == 38){
+        }else if(key == 38 && snake.direction != "DOWN"){
             snake.direction = "UP";
-        }else if(key == 39){
+        }else if(key == 39 && snake.direction != "LEFT"){
             snake.direction = "RIGHT";
-        }else if(key == 40){
+        }else if(key == 40 && snake.direction != "UP"){
             snake.direction = "DOWN";
         }
     }
@@ -211,6 +225,22 @@ function helpGame() {
         }
     }
 }
+
+function gameOver() {
+    gameRun = false;
+    var modal = document.getElementById("gameOver");
+    var span = document.getElementsByClassName("close")[1];
+    modal.style.display = "block";
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }    
+}
+
 
 function quitGame() {
     window.location.href='menu.html';
