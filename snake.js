@@ -4,6 +4,8 @@ const ctx = cvs.getContext("2d");
 let block_size = 20;
 const foodImg = new Image();
 foodImg.src = "img/apple.png";
+const food2Img = new Image();
+food2Img.src = "img/super.png";
 const bodyImg = new Image();
 bodyImg.src = "img/body.png";
 const headImg = new Image();
@@ -31,7 +33,7 @@ class Board {
         this.obstacles = [[[11, 6],[12,6],[13,6],[11, 7],[12,7],[13,7],[11, 8],[12,8],[13,8]],
                           [[4, 6],[5,6],[6,6],[4, 7],[5,7],[6,7],[4, 8],[5,8],[6,8],[18, 6],[19,6],[20,6],[18, 7],[19,7],[20,7],[18, 8],[19,8],[20,8]],
                           [[4, 6],[5,6],[6,6],[4, 7],[5,7],[6,7],[4, 8],[5,8],[6,8],[18, 6],[19,6],[20,6],[18, 7],[19,7],[20,7],[18, 8],[19,8],[20,8],[11, 6],[12,6],[13,6],[11,7],[12,7],[13,7],[11, 8],[12,8],[13,8],[10,6],[10,7],[10,8],[14,6],[14,7],[14,8]],
-                          [[4, 6],[5,6],[6,6],[4, 7],[5,7],[6,7],[4, 8],[5,8],[6,8],[18, 6],[19,6],[20,6],[18, 7],[19,7],[20,7],[18, 8],[19,8],[20,8],[11, 6],[12,6],[13,6],[11,7],[12,7],[13,7],[11, 8],[12,8],[13,8],[10,6],[10,7],[10,8],[14,6],[14,7],[14,8],[10,5],[11,5],[12,5],[13,5],[14,5],[10,9],[11,9],[12,9],[13,9],[14,19]]];
+                          [[4, 6],[5,6],[6,6],[4, 7],[5,7],[6,7],[4, 8],[5,8],[6,8],[18, 6],[19,6],[20,6],[18, 7],[19,7],[20,7],[18, 8],[19,8],[20,8],[11, 6],[12,6],[13,6],[11,7],[12,7],[13,7],[11, 8],[12,8],[13,8],[10,6],[10,7],[10,8],[14,6],[14,7],[14,8],[10,5],[11,5],[12,5],[13,5],[14,5],[10,9],[11,9],[12,9],[13,9],[14,9]]];
     }
     draw_board() {
         ctx.drawImage(backImg, 0, 0);
@@ -42,7 +44,7 @@ class Board {
     
     create_obstacles() {
         
-        var idx = this.level <= 5 ? this.level - 2 : 5;
+        var idx = this.level < 5 ? this.level - 2 : 3;
         
         for(var i = 0; i < this.obstacles[idx].length; i++) {
             draw_square(this.obstacles[idx][i][0], this.obstacles[idx][i][1], "brown", ctx);    
@@ -56,15 +58,42 @@ class Food {
         this.x = 0;
         this.y = 0;
         this.reset_food();
+        this.flag = 1;
     }
     
     draw_food() {
-        ctx.drawImage(foodImg, this.x * block_size, this.y * block_size);
+        
+        if(this.flag){
+            ctx.drawImage(foodImg, this.x * block_size, this.y * block_size);
+        } else {
+            ctx.drawImage(food2Img, this.x * block_size, this.y * block_size);
+        }
     }
     
     reset_food() {
+        
+        var idx = snake.level < 5 ? snake.level - 2 : 3;
+        
         this.x = Math.floor(Math.random() * (25));
         this.y = Math.floor(Math.random() * (15));
+        
+        
+        for(var i = 0; i < snake.body.length; i++){
+                if(this.x == snake.body[i][0] && this.y == snake.body[i][1]){
+                    this.reset_food();
+                }
+            }   
+        
+        if(snake.board.level > 1){
+            for(var i = 0; i < snake.board.obstacles[idx].length; i++){
+                if(this.x == snake.board.obstacles[idx][i][0] && this.y == snake.board.obstacles[idx][i][1]){
+                    this.reset_food();
+                }
+            }   
+        }
+        
+        this.flag = this.flag == 0 ? 1 : 0;
+        
     }
 }
 
@@ -170,7 +199,7 @@ class Snake {
     
     check_collision() {
         
-        var idx = this.level <= 5 ? this.level - 2 : 5;
+        var idx = this.level < 5 ? this.level - 2 : 3;
         
         if(this.body[0][0] >= 25 || this.body[0][0] < 0 || this.body[0][1] >= 15 || this.body[0][1] < 0){
             clearInterval(interval);
