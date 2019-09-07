@@ -14,12 +14,15 @@ html, body {
 }
 
 canvas {
-  border: 5px solid #909090;
+    border: 4px solid black; 
+    border-radius: 25px;
+    width: 500px;
+    height: 560px;
 }
 
 #page {
     width: 1000px;
-    height: 600px;
+    height: 700px;
     display: block;
     justify-content: center;
     align-items: center;
@@ -65,7 +68,7 @@ canvas {
 }
 #display {
   width: 750px;
-  height: 150px;
+  height: 115px;
   background-color: black;
   border: 5px ridge gray;
   border-bottom: 5px groove gray;
@@ -95,9 +98,8 @@ canvas {
     margin-top: auto;
     margin-bottom: auto;
     margin-left: auto ;
-    margin-right: auto ;
-    width: 560px;
-    height: 610px;
+    margin-right: auto ;    
+    width: 520px;
     border-radius: 80px;
     background: radial-gradient(circle, rgba(2,0,36,1) 0%, rgba(52,4,77,1) 25%, rgba(9,9,121,0.633473457742472) 50%, rgba(52,4,77,1) 75%, rgba(0,212,255,1) 100%);
     background-position: center;
