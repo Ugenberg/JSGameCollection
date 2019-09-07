@@ -2,6 +2,10 @@ const canvas_tetris = document.getElementById("tetris");
 const canvas_next = document.getElementById("next");
 const ctx_tetris = canvas_tetris.getContext("2d");
 const ctx_next = canvas_next.getContext("2d");
+var scr = document.getElementById("score");
+var lvl = document.getElementById("level");
+var lns = document.getElementById("lines");
+
 
 
 
@@ -131,8 +135,13 @@ class Board {
     constructor() {
         this.gameboard = [];
         this.create_board();
+        
     }
     create_board() {
+        this.score = 0;
+        this.lines = 0;
+        this.level = 1;
+        this.limit = 50;
         for(var x = 0; x < ROW; x++){
             this.gameboard[x] = [];
             for(var y = 0; y < COL; y++){
@@ -145,7 +154,7 @@ class Board {
             for(var y = 0; y < COL; y++){
                 draw_square(y, x, this.gameboard[x][y], ctx_tetris);
             }
-        }    
+        }
     }
     clear_lines() {
         var flag = 1;
@@ -173,10 +182,19 @@ class Board {
         for(var r = start; r > 0; r--){
             this.gameboard[r] = r-counter > 0 ? this.gameboard[r-counter] : this.gameboard[0];    
         }
-                
-            
         
+        this.score += counter * 10;
+        this.lines += counter;
+        scr.innerHTML = this.score;
+        lns.innerHTML = this.lines;
+        
+        if(this.score >= this.limit & counter != 0) {
+            this.level++;
+            lvl.innerHTML = this.level;
+            this.limit = 50 * this.level;
+        }
     }
+    
 }
 
 class Block {
@@ -201,7 +219,11 @@ class Block {
     }
     
     draw_next() {
-        ctx_next.fillStyle = "#586e75";
+        var my_gradient = ctx_next.createLinearGradient(0, 100, 100, 10);
+        my_gradient.addColorStop(0, "#34044d");
+        my_gradient.addColorStop(0.5, "#00d4ff");
+        my_gradient.addColorStop(1, "#34044d");
+        ctx_next.fillStyle = my_gradient;
         ctx_next.fillRect(0, 0, 100, 100);
         for(var r = 0; r < this.next[0].length; r++){
             for(var c = 0; c < this.next[0].length; c++){
@@ -299,23 +321,24 @@ var board = new Board();
 var block = new Block(board);
 
 document.addEventListener('keydown', event => {
-    if (event.keyCode === 37) {
-        block.move_horizontal(-1);
-        update();
-    } else if (event.keyCode === 38) {
-        block.rotate();
-        update();
-    } else if (event.keyCode === 39) {
-        block.move_horizontal(1);
-        update();
-    } else if (event.keyCode === 40) {
-        block.move_vertical();
-        update();
-    } else if (event.keyCode === 32) {
-        block.instant_drop();
-        update;
-            
-    } 
+    if(gameRun) {
+        if (event.keyCode === 37) {
+            block.move_horizontal(-1);
+            update();
+        } else if (event.keyCode === 38) {
+            block.rotate();
+            update();
+        } else if (event.keyCode === 39) {
+            block.move_horizontal(1);
+            update();
+        } else if (event.keyCode === 40) {
+            block.move_vertical();
+            update();
+        } else if (event.keyCode === 32) {
+            block.instant_drop();
+            update;
+        }
+    }
 });
 
 function update(){
@@ -327,20 +350,21 @@ function update(){
 
 
 let dropStart = Date.now();
-let gameOver = false;
+let gameStart = false;
 let gameRun = false;
 let gamePause = false;
+let gameTemp = 700;
 
 function drop(){
     let now = Date.now();
     let delta = now - dropStart;
-    if(delta > 600 && gameRun == true){
+    if(delta > (gameTemp - board.level * 150) && gameRun == true){
         block.move_vertical()
         dropStart = Date.now();
         update();
     }
     if(block.check_full()){
-        newGame();
+        gameOver();
     }
     
     if(gameRun){
@@ -349,6 +373,7 @@ function drop(){
 }
 
 function newGame() {
+    gameStart = true;
     gameRun = true;
     board.create_board();
     block.piece_reset();
@@ -360,7 +385,7 @@ function pauseGame() {
     if(gameRun){
         gameRun = false;
     }
-    else {
+    else if(gameStart){
         gameRun = true;
         drop();
     }
@@ -368,23 +393,44 @@ function pauseGame() {
 
 function helpGame() {
     gameRun = false;
-    var modal = document.getElementById("myModal");
+    var modal = document.getElementById("help");
     var span = document.getElementsByClassName("close")[0];
     modal.style.display = "block";
     span.onclick = function() {
         modal.style.display = "none";
-        gameRun = true;
-        drop();
+        if(gameStart) {
+            gameRun = true;
+            drop();
+        }
     }
     window.onclick = function(event) {
         if (event.target == modal) {
             modal.style.display = "none";
-            gameRun = true;
-            drop();
+            if(gameStart) {
+                gameRun = true;
+                drop();
+            }
         }
     }
 }
 
 function quitGame() {
-    window.close();
+    window.location.href='menu.html';
 }
+
+function gameOver() {
+    gameRun = false;
+    var modal = document.getElementById("gameOver");
+    var span = document.getElementsByClassName("close")[1];
+    modal.style.display = "block";
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }    
+}
+
+board.draw_board();

@@ -1,0 +1,389 @@
+html, body {
+    height:100%;
+    width:100%;
+    margin: 0 auto;
+    padding: 0;
+    font-family: 'Gentium Book Basic', serif;
+    text-align: center;
+    background: #fdf6e3;
+    font-style: "Gentium Book Basic";
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+#page {
+    width: 1000px;
+    height: 700px;
+    display: auto;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+
+.led-red {
+    margin: 10px;
+    width: 54px;
+    height: 54px;
+    background-color: #F00;
+    border-radius: 50%;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 12px;
+    animation: blinkRed 1s infinite;
+ }
+
+@keyframes blinkRed {
+    from { background-color: #F00; }
+    50% { background-color: #A00; box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 0;}
+    to { background-color: #F00; }
+}
+
+#displayBase {
+  display: inline-block;
+  border: 10px groove gray; 
+  border-right: 10px ridge gray;
+  border-bottom: 10px ridge gray;
+  padding: 10px;
+  position: relative;
+  top: 0px;
+  background-color: #BBBBBB;
+  text-align: center;
+  margin-bottom: 10px;
+  border-radius: 10px;
+}
+
+#display {
+  width: 750px;
+  height: 115px;
+  background-color: black;
+  border: 5px ridge gray;
+  border-bottom: 5px groove gray;
+  border-left: 5px groove gray;
+}
+
+.led {
+  display: inline-block;
+  margin: 4px;
+  margin-bottom: 0px;
+  width: 12px;
+  height: 12px;
+  border-radius: 5px;
+  background-color: red;
+  -webkit-box-shadow: 0px 0px 15px 5px rgba(255, 0, 0, .75);
+  -moz-box-shadow: 0px 0px 15px 5px rgba(255, 0, 0, .75);
+  box-shadow: 0px 0px 15px 5px rgba(255, 0, 0, .75);
+}
+
+.off {
+  background-color: #222222;
+   -webkit-box-shadow: 0px 0px 0px 0px rgba(255, 255, 190, .75);
+  -moz-box-shadow: 0px 0px 0px 0px rgba(255, 255, 190, .75);
+  box-shadow: 0px 0px 0px 0px rgba(255, 255, 190, .75);
+}
+
+.button {
+    position: relative;
+    top: 4px;
+    padding: 4px;
+    margin: 3px;
+    background: linear-gradient(45deg, rgba(2,0,36,1) 0%, rgba(52,4,77,1) 10%, rgba(0,212,255,1) 50%, rgba(52,4,77,1) 90%, rgba(0,212,255,1) 100%); 
+    border: 3px solid black; 
+    border-radius: 80px;
+    color: black;
+    text-align: center;
+    font-size: 22px;
+    cursor: pointer;
+    width: 110px;
+    height: 20px;
+    display: inline-block;
+    font-family: "Gentium Book Basic";
+    font-style: oblique;
+    text-align: center;
+}
+
+.button:hover {
+    border-color: darkslateblue;
+    transition-duration:1s;
+    border-radius: 220px;
+}
+
+.menu_button {
+    position: relative;
+    width: 200;
+    height: 200;
+    background: linear-gradient(45deg, rgba(2,0,36,1) 0%, rgba(52,4,77,1) 10%, rgba(0,212,255,1) 50%, rgba(52,4,77,1) 90%, rgba(0,212,255,1) 100%);
+    border: 6px solid black; 
+    border-radius: 80px;
+    color: black;
+    text-align: center;
+    font-size: 40px;
+    font-style: oblique;
+    cursor: pointer;
+    display: inline-block;
+    font-family: "Gentium Book Basic";
+    margin-left: 10px;
+    margin-right: 10px;
+    transition-duration:2s;
+}
+
+.menu_button:hover {
+    background: linear-gradient(135deg, rgba(2,0,36,1) 0%, rgba(52,4,77,1) 10%, rgba(0,212,255,1) 50%, rgba(52,4,77,1) 90%, rgba(0,212,255,1) 100%);
+    font-size: 300%;
+    border-color: darkslateblue;
+}
+
+#gameBoard {
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: auto ;
+    margin-right: auto ;
+    width: 520px;
+    height: 450px;
+    border-radius: 80px;
+    background: radial-gradient(circle, rgba(2,0,36,1) 0%, rgba(52,4,77,1) 25%, rgba(9,9,121,0.633473457742472) 50%, rgba(52,4,77,1) 75%, rgba(0,212,255,1) 100%);
+    background-position: center;
+	animation: pulse 5s infinite;
+    animation-direction: alternate;
+    box-shadow: 2px 2px 3px black;
+    display: block;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    padding: 10;
+    padding-top: 6;
+    border: 10px groove gray; 
+    border-right: 10px ridge gray;
+    border-bottom: 10px ridge gray;
+    
+    
+}
+
+@keyframes pulse {
+    from { 
+	background-size: 100%;}
+    to { 
+	background-size: 150%;}
+}
+
+#leftGrid {
+	width: 45px;
+    height: 325px;
+    margin: 3px;
+    padding: 2px;
+    border-width: 1px;
+    left: 0px;
+    right: 0px;
+    border-radius: 10px;
+    text-align: center;
+    border: 3px solid black;
+    background: linear-gradient(180deg, rgba(0,212,255,1) 0%, rgba(52,4,77,1) 25%, rgba(0,212,255,1) 50%, rgba(52,4,77,1) 90%, rgba(52,4,77,1) 100%);
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+#midGrid {
+    width: 200px;
+    height: 325px;
+    padding: 2px;
+    border-width: 1px;
+    border-radius: 10px;
+    margin: 3px 0px;
+    text-align: center;
+    border: 3px solid black;
+    background: linear-gradient(180deg, rgba(0,212,255,1) 0%, rgba(52,4,77,1) 25%, rgba(0,212,255,1) 50%, rgba(52,4,77,1) 90%, rgba(52,4,77,1) 100%);
+    justify-content: center;
+    align-items: center;
+}
+
+#rightGrid {
+    width: 50px;
+    height: 325px;
+    padding: 2px;
+    border-width: 1px;
+    margin: 3px;
+    left: 0px;
+    right: 0px;
+    border-radius: 10px;
+    border: 3px solid black;
+    background: linear-gradient(180deg, rgba(0,212,255,1) 0%, rgba(52,4,77,1) 25%, rgba(0,212,255,1) 50%, rgba(52,4,77,1) 90%, rgba(52,4,77,1) 100%);
+    display: inline;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+#centerBoard {
+  position: relative;
+  margin: 3px auto;
+}
+
+#board {
+  margin: auto;
+  background: linear-gradient(180deg, rgba(0,212,255,1) 0%, rgba(52,4,77,1) 25%, rgba(0,212,255,1) 50%, rgba(52,4,77,1) 90%, rgba(52,4,77,1) 100%);
+  font-size: 0px;
+  display: flex;
+  left: 0px;
+  right: 0px;
+  border-radius: 50px;
+  border: 4px solid black;  
+  width: 500px;
+  height: 345px;
+    
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+#masterGrid {
+  background: linear-gradient(180deg, rgba(0,212,255,1) 15%, rgba(52,4,77,1) 25%, rgba(0,212,255,1) 35%, rgba(52,4,77,1) 90%, rgba(52,4,77,1) 25%);
+  
+  border-radius: 100px;
+  border: 4px solid black;
+  margin: 3px auto;
+  height:85px;
+}
+
+#topBar {
+    width: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+
+/* modal */
+
+.popup {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+}
+
+.popup-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 10px;
+  border: 1px solid #888;
+  width: 250px;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* button colors */
+
+.color {
+  display: inline-block;
+  height: 30px;
+  width: 30px;
+  margin: 5px;
+  border-radius: 15px;
+  box-shadow: 2px 2px 2px black;
+}
+
+.color-0 {
+  background: #b58900;
+}
+
+.color-1 {
+  background: #268bd2;
+}
+
+.color-2 {
+  background: #dc322f;
+}
+
+.color-3 {
+  background: #2aa198;
+}
+
+.color-4 {
+  background: white;
+}
+
+.color-5 {
+  background: black;
+}
+
+.color-6 {
+  background: #6c71c4;
+}
+
+.color-7 {
+  background: #d33682;
+}
+
+.color-8 {
+  background: #073642;
+}
+
+.color-9 {
+  background: #a5948c;
+}
+
+/* guess containers */
+
+.oldGuess {
+  display: flex;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+}
+
+.guessFieldContainer {
+  display: inline-block;
+  padding: 4px 2px 0px;
+  height: 36px;
+  text-align: left;
+}
+
+.guessField {
+  display: inline-flex;
+  height: 14px;
+  width: 14px;
+  margin: 1px 1px;
+  padding: 0;
+  border-radius: 5px;
+}
+
+.guessField-0 {
+  background: black;
+  box-shadow: 1px 1px 1px black;
+}
+
+.guessField-1 {
+  background: white;
+  box-shadow: 1px 1px 1px black;
+}
+
+.guessField-2 {
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;
+  height: 12px;
+  width: 12px;
+  margin: 1px 1px;
+  padding: 0;
+  border-radius: 4px;
+}

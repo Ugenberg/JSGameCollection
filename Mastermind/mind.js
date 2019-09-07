@@ -63,7 +63,7 @@ function getVar(variable) {
 
 let colors = parseInt(getVar("colors"));
 if (!colors) {
-  colors = 10;
+  colors = 8;
 } else if (colors < 1) {
   colors = 1;
 } else if (colors > 8) {
@@ -81,7 +81,7 @@ if (!digits) {
 
 let limit = parseInt(getVar("limit"));
 if (!limit) {
-  limit = 12;
+  limit = 8;
 } else if (limit < 1) {
   limit = 1;
 } else if (limit > 20) {

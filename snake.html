@@ -1,0 +1,62 @@
+<html>
+<head>
+    <title>Tetris</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link href='https://fonts.googleapis.com/css?family=Orbitron' rel='stylesheet' type='text/css'>
+</head>
+<body>
+    <div id="page">
+        <div id="topBar">
+            <div class="led-red"></div>
+            <div id="displayBase">
+                <div id="display"></div>
+            </div>
+            <div class="led-red"></div>
+        </div>
+        <div id="snakeBoard">
+            <div id="topGrid">
+                <div class="container">
+                    <h1>SCORE</h1>
+                    <div id="score_s">0</div>
+                </div>
+                <div class="container">
+                    <h1>LEVEL</h1>
+                    <div id="level_s">1</div>
+                </div>
+                <div class="container">
+                    <h1>EATS</h1>
+                    <div id="lines_s">0</div>
+                </div>    
+            </div>
+            <div id="centerGrid">
+                <canvas id="snake_canv" width="500" height="300"></canvas>
+            </div>
+            <div id="bottomGrid">
+                <button class="button_s" onMouseDown="newGame()">NEW GAME</button>
+                <button class="button_s" onMouseDown="helpGame()" >HELP</button>
+                <button class="button_s" onMouseDown="pauseGame()">PAUSE</button>
+                <button class="button_s" onMouseDown="quitGame()">QUIT GAME</button>
+            </div>
+        </div>
+
+        <div id="help" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                    <p style="font-size:22px"><b>How to play?</b><p>
+                    <p>Eat as many apples as you can to grow as long as possible. But don't hit the wall, or eat your tail! Remember to avoid obstacles! How long can you survive?</p>
+                    <h1>Controls</h1>
+                    <p>Arrows -> control snake</p>
+            </div>
+        </div>
+        <div id="gameOver" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <p style="font-size:22px"><b>GAME OVER</b><p>
+            </div>
+        </div>
+    </div>
+    <script src="snake.js"></script>
+    <script src="led.js"></script>
+    <script> write(snaker)</script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<html>
+<head>
+    <title>Tetris</title>
+    <link rel="stylesheet" type="text/css" href="breakout_style.css">
+    <link href='https://fonts.googleapis.com/css?family=Orbitron' rel='stylesheet' type='text/css'>
+
+</head>
+<body>
+    <div id=page>
+        <div id=topBar>
+            <div class="led-red"></div>
+            <div id="displayBase">
+                <div id="display"></div>
+            </div>
+            <div class="led-red"></div>
+        </div>
+        <div id="gameBoard">  
+            <canvas id="board"></canvas>
+        </div>
+    </div>
+    <script src="../led.js"></script>
+    <script src="common.js"></script>
+    <script src="breakout.js"></script>
+    <script src="objects.js"></script>
+    <script> write(breakout)</script>
+</body>
+</html>
